@@ -13,21 +13,27 @@
 
     <artifactId>common</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.mycompany</groupId>
-            <artifactId>StudentController-web</artifactId>
-            <version>${student.controller.version}</version>
-            <type>war</type>
-        </dependency>
-    </dependencies>
-
     <build>
+        <finalName>${parent.artifactId}-${parent.version}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <version>${maven.version}</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assemble-zip.xml</descriptor>
+                    </descriptors>
+                    <outputDirectory>${target.module.dir}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

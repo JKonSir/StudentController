@@ -15,9 +15,13 @@
 
     <properties>
         <student.controller.version>${version}</student.controller.version>
+
         <jdk.version>1.8</jdk.version>
         <maven.version>2.2</maven.version>
         <springframework.version>4.2.5.RELEASE</springframework.version>
+
+        <target.artifact.dir>${user.dir}/common/src/main/resources/WEB-INF/lib</target.artifact.dir>
+        <target.module.dir>${user.dir}/dist</target.module.dir>
     </properties>
 
     <build>
