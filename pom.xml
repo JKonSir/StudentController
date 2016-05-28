@@ -7,14 +7,14 @@
     <groupId>org.mycompany</groupId>
     <artifactId>StudentController</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <modules>
         <module>StudentController-web</module>
         <module>common</module>
     </modules>
 
     <properties>
-        <student.controller.version>${version}</student.controller.version>
+        <student.controller.version>${project.version}</student.controller.version>
 
         <jdk.version>1.8</jdk.version>
         <maven.version>2.2</maven.version>
