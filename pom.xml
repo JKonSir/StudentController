@@ -20,7 +20,7 @@
         <maven.version>2.2</maven.version>
         <springframework.version>4.2.5.RELEASE</springframework.version>
 
-        <target.artifact.dir>${user.dir}/common/src/main/resources/WEB-INF/lib</target.artifact.dir>
+        <target.artifact.dir>${user.dir}/common/src/main/resources/StudentApplicationWebApp/WEB-INF/lib</target.artifact.dir>
         <target.module.dir>${user.dir}/dist</target.module.dir>
     </properties>
 
