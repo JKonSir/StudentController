@@ -21,17 +21,7 @@ public class GroupController
         final TxUtils txUtils = StudentModelDependencyOnSpring.getInstance().getTxUtils();
         final EntityDao<Group> groupEntityDao = StudentModelDependencyOnSpring.getInstance().getGroupDao();
 
-        return txUtils.doInTransactionRequired(() -> {
-            System.out.println("==========================");
-            System.out.println("==========================");
-            System.out.println("==========================");
-            System.out.println("Hello, World!!!");
-            System.out.println("==========================");
-            System.out.println("==========================");
-            System.out.println("==========================");
-
-            return groupEntityDao.getEntity(new BigInteger(id));
-        });
+        return txUtils.doInTransactionRequired(() -> groupEntityDao.getEntity(new BigInteger(id)));
     }
 
 }

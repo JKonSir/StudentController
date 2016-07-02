@@ -11,28 +11,94 @@
     <version>1.2.1</version>
 
     <modules>
-        <module>StudentController-web</module>
         <module>common</module>
+        <module>StudentController-web</module>
+        <module>parent-dependencies</module>
     </modules>
 
     <properties>
-        <student.controller.version>${project.version}</student.controller.version>
-
-        <jdk.version>1.8</jdk.version>
         <maven.version>2.2</maven.version>
-        <springframework.version>4.2.5.RELEASE</springframework.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
-        <target.artifact.dir>${user.dir}/common/src/main/resources/StudentApplicationWebApp/WEB-INF/lib</target.artifact.dir>
+        <target.artifact.dir>${user.dir}/common/src/main/resources/StudentApplicationWebApp.war/WEB-INF/lib</target.artifact.dir>
         <target.module.dir>${user.dir}/dist</target.module.dir>
     </properties>
 
     <build>
         <plugins>
+
+            <!-- maven compiler plugin -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- maven version plugin -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>${maven.version}</version>
             </plugin>
+
+            <!-- maven dependency plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>StudentController-web</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${target.artifact.dir}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- maven clean plugin -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven.version}</version>
+                <executions>
+                    <execution>
+                        <id>clean</id>
+                        <phase>clean</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${target.artifact.dir}</directory>
+                        </fileset>
+                        <fileset>
+                            <directory>dist</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

@@ -5,17 +5,20 @@
             http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <artifactId>StudentController</artifactId>
+        <artifactId>parent-dependencies</artifactId>
         <groupId>org.mycompany</groupId>
         <version>1.2.1</version>
+        <relativePath>../parent-dependencies/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common</artifactId>
 
     <build>
-        <finalName>${parent.artifactId}-${parent.version}</finalName>
+        <finalName>StudentController-${project.version}</finalName>
         <plugins>
+
+            <!-- maven assembly plugin -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${maven.version}</version>

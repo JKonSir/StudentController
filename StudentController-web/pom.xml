@@ -5,79 +5,48 @@
             http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <artifactId>StudentController</artifactId>
+        <artifactId>parent-dependencies</artifactId>
         <groupId>org.mycompany</groupId>
         <version>1.2.1</version>
+        <relativePath>../parent-dependencies/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>StudentController-web</artifactId>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.mycompany</groupId>
+                <artifactId>parent-dependencies</artifactId>
+                <version>1.2.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
-        <dependency>
-            <groupId>org.mycompany</groupId>
-            <artifactId>StudentModel-api</artifactId>
-            <version>2.3.0</version>
-        </dependency>
+
+        <!-- product dependencies -->
 
         <dependency>
             <groupId>org.mycompany</groupId>
-            <artifactId>StudentModel-impl</artifactId>
-            <version>2.3.0</version>
+            <artifactId>StudentModel-api</artifactId>
         </dependency>
+
+        <!-- spring dependencies -->
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${springframework.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${springframework.version}</version>
         </dependency>
+
     </dependencies>
-
-    <build>
-        <finalName>${artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven.version}</version>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${groupId}</groupId>
-                                    <artifactId>${artifactId}</artifactId>
-                                    <version>${student.controller.version}</version>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${target.artifact.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
