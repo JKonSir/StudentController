@@ -22,10 +22,13 @@ import javax.inject.Inject;
 @RequestMapping(value = RestUrlConst.BASE_URL)
 public class GroupController
 {
+    private final EntityRepository<Group> groupRepository;
+
     @Inject
-    private EntityRepository<Group> groupRepository;
-    @Inject
-    private EntityRepository<Student> studentRepository;
+    GroupController(EntityRepository<Group> groupRepository)
+    {
+        this.groupRepository = groupRepository;
+    }
 
     @CrossOrigin
     @ResponseBody
