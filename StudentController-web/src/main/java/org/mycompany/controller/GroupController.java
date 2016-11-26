@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -43,26 +43,47 @@ public class GroupController
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = RestUrlConst.ALL_GROUPS_URL,
-            method = RequestMethod.POST,
+            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Group> getGroupsByIds(@RequestBody List<String> groupIds) throws Exception
+    public List<Group> getAllStudents(@RequestParam(name = "pageNumber") Integer pageNumber,
+                                      @RequestParam(name = "limit") Integer limit)
     {
-        return groupRepository.findByIds
-                (
-                        groupIds.stream()
-                                .map(BigInteger::new)
-                                .collect(Collectors.toList())
-                );
+        List<Group> groups = groupRepository.findAll();
+        int from = limit * (pageNumber - 1);
+        int to = groups.size() <= limit * pageNumber ? groups.size() : limit * pageNumber;
+        return groups.subList(from, to);
     }
 
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = RestUrlConst.ALL_GROUPS_URL,
-            method = RequestMethod.GET,
+            method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Group> getAllGroups() throws Exception
+    public Group createGroup(@RequestBody Group group) throws Exception
     {
-        return groupRepository.findAll();
+        groupRepository.save(group);
+
+        return group;
+    }
+
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = RestUrlConst.GROUP_URL,
+            method = RequestMethod.PATCH,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Group updateGroup(@PathVariable(value = "groupId") String groupId,
+                             @RequestBody Group group) throws Exception
+    {
+        return groupRepository.update(new BigInteger(groupId), group);
+    }
+
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = RestUrlConst.GROUP_URL,
+            method = RequestMethod.DELETE)
+    public void deleteStudent(@PathVariable(value = "groupId") String groupId) throws Exception
+    {
+        groupRepository.delete(new BigInteger(groupId));
     }
 
     @CrossOrigin
@@ -81,7 +102,7 @@ public class GroupController
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Student getStudentOfGroup(@PathVariable(value = "groupId") String groupId,
-                                           @PathVariable(value = "studentId") String studentId) throws Exception
+                                     @PathVariable(value = "studentId") String studentId) throws Exception
     {
         List<Student> students = groupRepository.findById(new BigInteger(groupId), Boolean.TRUE).getStudents();
         for (Student student : students)

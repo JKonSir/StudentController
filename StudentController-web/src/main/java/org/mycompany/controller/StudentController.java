@@ -49,7 +49,7 @@ public class StudentController
     {
         List<Student> students = studentRepository.findAll();
         int from = limit * (pageNumber - 1);
-        int to = limit * pageNumber;
+        int to = students.size() <= limit * pageNumber ? students.size() : limit * pageNumber;
         return students.subList(from, to);
     }
 
@@ -71,9 +71,8 @@ public class StudentController
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Student updateStudent(@PathVariable(value = "studentId") String studentId,
-                              @RequestBody Student student) throws Exception
+                                 @RequestBody Student student) throws Exception
     {
-        student.setId(new BigInteger(studentId));
         return studentRepository.update(new BigInteger(studentId), student);
     }
 
